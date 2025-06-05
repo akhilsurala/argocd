@@ -1,0 +1,81 @@
+export const statusText = {
+    completed: "Completed",
+    holding: "To Simulate",
+    running: "Simulating",
+    failed: "Failed",
+    pause: "Paused",
+    queued: "In Queue",
+  };
+
+  export const columnHeaders = {
+    simulationType: "Simulation Type",
+    makeControl: 'Make Control',
+
+    pvModule: "PV Module",
+    modeOfOperationId: "Mode of PV Operation",
+    moduleConfigs: "Module Configuration",
+    soilType: "Soil Type",
+    moduleMaskPattern: "Module Mask Pattern",
+    tiltIfFt: "Tilt Angle",
+    maxAngleOfTracking: "Max Angle of Tracking",
+
+    height: "Height",
+    lengthOfOneRow: "Length of One Row",
+    gapBetweenModules: "Gap Between Modules",
+    pitchOfRows: "Pitch of Rows",
+    azimuth: "Azimuth",
+
+    irrigationType: "Type of Irrigation",
+    tempControl: "Temperature Control",
+    minTemp: "Minimum Temperature",
+    maxTemp: "Maximum Temperature",
+    isMulching: "Is Mulching",
+    startPointOffset: "Start Point Offset",
+    bedHeight: "Bed Height",
+    bedWidth: "Bed Width",
+    bedAngle: "Angle of Bed",
+    bedcc: "Number of Beds",
+    bedAzimuth: "Bed Azimuth",
+    currency: "Currency",
+
+    // minReferenceYieldCost: "Min Reference Yield Cost",
+    // maxReferenceYieldCost: "Max Reference Yield Cost",
+    // minInputCostOfCrop: "Min Input Cost of Crop",
+    // maxInputCostOfCrop: "Max Input Cost of Crop",
+    // minSellingCostOfCrop: "Min Selling Cost of Crop",
+    // maxSellingCostOfCrop: "Max Selling Cost of Crop",
+    // hourlySellingRates: "Hourly Selling Rates",
+  };
+
+  export const columnHeadersArray = [
+    { key: "simulationType", label: "Simulation Type" },
+    { key: "pvModule", label: "PV Module" },
+    { key: "modeOfOperationId", label: "Mode of PV Operation" },
+    { key: "moduleConfigs", label: "Module Configuration" },
+    { key: "soilType", label: "Soil Type" },
+    { key: "moduleMaskPattern", label: "Module Mask Pattern" },
+    { key: "tiltIfFt", label: "Tilt Angle" },
+    { key: "maxAngleOfTracking", label: "Max Angle of Tracking" },
+    { key: "height", label: "Height" },
+    { key: "lengthOfOneRow", label: "Length of One Row" },
+    { key: "gapBetweenModules", label: "Gap Between Modules" },
+    { key: "pitchOfRows", label: "Pitch of Rows" },
+    { key: "azimuth", label: "Azimuth" },
+    { key: "irrigationType", label: "Type of Irrigation" },
+    { key: "tempControl", label: "Temperature Control" },
+    { key: "minTemp", label: "Minimum Temperature" },
+    { key: "maxTemp", label: "Maximum Temperature" },
+    { key: "trail", label: "Trails" },
+    { key: "isMulching", label: "Is Mulching" },
+    { key: "startPointOffset", label: "Start Point Offset" },
+    { key: "bedHeight", label: "Bed Height" },
+    { key: "bedWidth", label: "Bed Width" },
+    { key: "bedAngle", label: "Angle of Bed" },
+    { key: "bedcc", label: "Number of Beds" },
+    { key: "bedAzimuth", label: "Bed Azimuth" },
+    { key: "currency", label: "Currency" },
+  ];
+  
+export const lastColumnHeader =[
+  { key: "createdOn", label: "Created On" },
+]

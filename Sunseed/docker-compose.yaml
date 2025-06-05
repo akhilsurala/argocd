@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  simtool-service:
+    build:
+      context: sim-tool-develop/sim-tool-backend
+      dockerfile: Dockerfile
+    image: sunseed-simtool
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sunseed
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: newlife
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      MY_ENV_PROPERTY: "value1,value2"
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  webtool-backend-service:
+    build:
+      context: webtools-backend-develop
+      dockerfile: Dockerfile
+    image: webtools-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sunseed
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: newlife
+      SPRING_PROFILES_ACTIVE: dev
+      CROP_INTERVALTYPE: 1
+    depends_on:
+      - postgres
+
+  authorization-service:
+    build:
+      context: webtools-backend-develop/authorization-service
+      dockerfile: Dockerfile
+    image: webtool-authorization
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/users
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: newlife
+      JWT_SECRET_KEY: 5A7134743777397A24432646294A404E635266556A586E3272357538782F4125
+      JWT_TOKEN_EXPIRATION_TIME: 604800000
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
+
+  mailservice:
+    build:
+      context: webtools-backend-develop/MailService
+      dockerfile: Dockerfile
+    image: webtool-mailservice
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_MAIL_USERNAME: sunseedapv@gmail.com
+      SPRING_MAIL_PASSWORD: nropqhwgjjhnbrns
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: webtools-frontend-develop
+      dockerfile: Dockerfile
+    image: sunseed-frontend
+    ports:
+      - "81:80"
+    depends_on:
+      - simtool-service
+      - webtool-backend-service
+      - authorization-service
+      - mailservice
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"  
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: newlife
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ~/.docker-conf/postgres-init:/docker-entrypoint-initdb.d
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    hostname: simtoolmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - type: bind
+        source: ~/.docker-conf/rabbitmq/rabbitmq.conf
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ~/.docker-conf/rabbitmq/data/
+        target: /var/lib/rabbitmq/
+      - type: bind
+        source: ~/.docker-conf/rabbitmq/log/
+        target: /var/log/rabbitmq/
+
+volumes:
+  pgdata:
+  rabbitmq_data:

@@ -1,0 +1,3 @@
+ALTER TABLE optical_property
+ADD COLUMN master_type VARCHAR(255) DEFAULT NULL,
+ADD COLUMN master_id BIGINT DEFAULT NULL;

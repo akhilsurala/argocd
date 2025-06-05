@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sunseed-ingress
+  namespace: sunseed
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /auth/$2
+spec:
+  rules:
+  - host: sunseed.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sunseed-frontend-svc
+            port:
+              number: 80
+      - path: /api/authorization(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service: 
+            name: sunseed-authorization-svc
+            port:
+              number: 80
+      - path: /api/mailservice
+        pathType: Prefix
+        backend:
+          service:
+            name: sunseed-mailservice-svc
+            port:
+              number: 80
+      - path: /api/simtool
+        pathType: Prefix
+        backend:
+          service:
+            name: sunseed-simtool-svc
+            port:
+              number: 80
+      - path: /api/webtool-backend
+        pathType: Prefix
+        backend:
+          service:
+            name: webtools-backend-svc
+            port:
+              number: 80
+
+
+
+
+

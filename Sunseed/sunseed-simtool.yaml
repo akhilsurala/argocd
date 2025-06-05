@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sunseed-simtool
+  namespace: sunseed
+  labels:
+    app: simtool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simtool
+  template:
+    metadata:
+      labels:
+        app: simtool
+    spec:
+      containers:
+      - name: sunseed-simtool
+        image: akhilsurala/sunseed-simtool:latest
+        ports:
+        - containerPort: 8090
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: POSTGRES_DB_URL
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: POSTGRES_USER
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: POSTGRES_PASSWORD
+        - name: SPRING_RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: RABBITMQ_HOST
+        - name: SPRING_RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: RABBITMQ_PORT
+        - name: MY_ENV_PROPERTY
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: MY_ENV_PROPERTY
+        - name: SPRING_RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: RABBITMQ_USER
+        - name: SPRING_RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: RABBITMQ_PASS
+
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+

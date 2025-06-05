@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webtool-authorization
+  namespace: sunseed
+  labels:
+    app: authorization
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authorization
+  template:
+    metadata:
+      labels:
+        app: authorization
+    spec:
+      containers:
+      - name: webtool-authorization
+        image: akhilsurala/webtool-authorization:latest
+        ports:
+        - containerPort: 8081
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: AUTH_DB_URL
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: AUTH_DB_USER
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: POSTGRES_PASSWORD
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: JWT_SECRET_KEY
+        - name: JWT_TOKEN_EXPIRATION_TIME
+          valueFrom:
+            secretKeyRef:   
+              name: sunseed-secrets
+              key: JWT_TOKEN_EXPIRATION_TIME
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+
+
+

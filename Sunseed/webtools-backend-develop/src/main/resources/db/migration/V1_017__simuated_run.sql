@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS simulated_runs
+ADD COLUMN variant_exist BOOLEAN DEFAULT FALSE;

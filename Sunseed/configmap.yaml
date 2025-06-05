@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sunseed-config
+  namespace: sunseed
+data:
+  # Database config
+  POSTGRES_DB_URL: jdbc:postgresql://postgres:5432/sunseed
+  POSTGRES_USER: postgres
+  # authorization
+  AUTH_DB_URL: jdbc:postgresql://postgres:5432/users
+  AUTH_DB_USER: postgres
+
+  # RabbitMQ config
+  RABBITMQ_HOST: rabbitmq
+  RABBITMQ_PORT: "15672"
+
+  # Other shared configs
+  CROP_INTERVALTYPE: "1"
+  
+  # env property
+  MY_ENV_PROPERTY: "value1,value2"

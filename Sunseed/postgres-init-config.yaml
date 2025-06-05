@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-script
+  namespace: sunseed
+data:
+  init.sql: |
+    CREATE DATABASE sunseed;
+    CREATE DATABASE users;

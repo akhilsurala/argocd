@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webtools-backend
+  namespace: sunseed
+  labels:
+    app: webtools-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webtools-backend
+  template:
+    metadata:
+      labels:
+        app: webtools-backend
+    spec:
+      containers:
+      - name: webtool-backend
+        image: akhilsurala/webtools-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: POSTGRES_DB_URL
+              
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: POSTGRES_USER
+
+        - name: CROP_INTERVALTYPE
+          valueFrom:
+            configMapKeyRef:
+              name: sunseed-config
+              key: CROP_INTERVALTYPE
+
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sunseed-secrets
+              key: POSTGRES_PASSWORD
+
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+
+        

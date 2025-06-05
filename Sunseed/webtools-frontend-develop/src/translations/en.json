@@ -1,0 +1,11 @@
+{
+    "src.container.Login.signIn" : "Sign in",
+    "src.container.Login.welcomeBack" : "Welcome back",
+    "src.container.Home.apvSim": "APV Sim",
+    "src.container.Home.apvSimOne": "Core design for APV Farm",
+    "src.container.Home.apvControl": "APV Control",
+    "src.container.Home.apvControlOne": "Controller and visualizer for your APV Farm Environment in realtime",
+    "src.container.Home.apvManage": "APV Manage",
+    "src.container.Home.apvManageOne": "General App for Managing Farm operations"
+    
+}

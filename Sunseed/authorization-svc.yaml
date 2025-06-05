@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sunseed-authorization-svc
+  namespace: sunseed
+spec:
+  selector:
+    app: authorization
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+

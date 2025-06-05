@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS simulations
+ADD COLUMN comment VARCHAR(255);

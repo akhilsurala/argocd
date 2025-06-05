@@ -1,0 +1,60 @@
+logging.level.web=info
+logging.level.com.sunseed=debug
+#logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG
+logging.pattern.console=%clr(%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %clr([%.36X{uuid:- }]){blue} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}
+logging.file.name=logs/simtool.log
+
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+
+rabbitmq.queue.pv=q.pv
+rabbitmq.routingkey.pv=pv
+rabbitmq.queue.agri=q.agri
+rabbitmq.routingkey.agri=agri
+rabbitmq.queue.result=q.result
+rabbitmq.routingkey.result=result
+rabbitmq.exchange=x.simtool
+
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=false
+spring.jpa.hibernate.ddl-auto=none
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://localhost:5432/sunseed
+spring.datasource.username=postgres
+spring.datasource.password=new life
+spring.jpa.properties.hibernate.default_schema=simtool
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+spring.flyway.enabled=true
+spring.flyway.default-schema=simtool
+
+cors.allowed-origins=*
+
+#DAILY, WEEKLY, BIWEEKLY, MONTHLY, 45DAYS
+simulation.run.policy=BIWEEKLY
+simulation.daily.run.hours=1
+#Int value
+simulation.duration.days=365
+
+simulation.server.name=server-1,server-2
+simulation.server.type=BIFACIAL,HELIOS
+simulation.server.cpu=1,4
+simulation.server.gpu=0,4
+spring.rabbitmq.listener.simple.prefetch=1
+simulation.server.username=navyug,navyug
+simulation.server.password=new life,new life
+simulation.server.host=192.168.3.191,192.168.3.191
+simulation.server.pem=
+simulation.max-wait-time.minutes=120
+
+helios.file.location=Projects/Navyug/Sunseed/sim-tool/Helios/projects/simulation/build/
+bifacial.file.location=Projects/Navyug/Sunseed/sim-tool/bifacial_radiance/bifacial_radiance
+
+weather-data.source.url.fallback=https://raw.githubusercontent.com/NREL/EnergyPlus/develop/weather/master.geojson
+weather-data.source.url=https://api.oikolab.com/epw
+weather-data.api.key=76604f964b634a7388216ae6bc09d9eb
+
+#Absolute Path
+epw.file-system.path=/home/navyug/Documents/epw_files/
