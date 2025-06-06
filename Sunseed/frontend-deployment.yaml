@@ -4,16 +4,16 @@ metadata:
   name: sunseed-frontend-deployment-blue
   namespace: sunseed
   labels:
-    app: frontend
+    app: frontend-blue
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-blue
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-blue
     spec:
       containers:
       - name: sunseed-frontend
