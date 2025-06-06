@@ -16,20 +16,20 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: akhilsurala/postgres:15
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sunseed-secrets
-              key: POSTGRES_PASSWORD
-        volumeMounts:
-        - name: init-script
-          mountPath: /docker-entrypoint-initdb.d
-        volumes:
+        - name: postgres
+          image: akhilsurala/postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sunseed-secrets
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
         - name: init-script
           configMap:
             name: postgres-init-script
