@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sunseed-frontend-deployment-blue
+  name: sunseed-frontend-deployment-green
   namespace: sunseed
   labels:
     app: frontend
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: sunseed-frontend
-        image: akhilsurala/sunseed-frontend:v1
+        image: akhilsurala/sunseed-frontend:v2
         imagePullPolicy: Always
         ports:
         - containerPort: 80
