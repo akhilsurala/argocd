@@ -1,6 +1,0 @@
-ALTER TABLE user_run
-ADD COLUMN IF NOT EXISTS economic_parameter_id BIGINT;
-ALTER TABLE user_run
-ADD COLUMN IF NOT EXISTS user_profile_id BIGINT;
-ALTER TABLE user_run
-ADD COLUMN IF NOT EXISTS status VARCHAR(30);

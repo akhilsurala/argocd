@@ -1,4 +1,0 @@
-
-ALTER TABLE crop
-ADD COLUMN min_stage BIGINT ,
-ADD COLUMN max_stage BIGINT;

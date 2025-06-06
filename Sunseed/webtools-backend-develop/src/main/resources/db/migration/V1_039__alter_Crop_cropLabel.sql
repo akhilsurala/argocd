@@ -1,2 +1,0 @@
-ALTER TABLE crop
-ADD COLUMN crop_label VARCHAR(255);

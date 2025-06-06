@@ -1,1 +1,0 @@
-ALTER TABLE bed ADD COLUMN bed_name VARCHAR(255);
