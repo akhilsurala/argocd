@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sunseed-deployment
+  name: sunseed-frontend-deployment
   namespace: sunseed
   labels:
     app: frontend
