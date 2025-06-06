@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sunseed-frontend-svc
+  name: sunseed-frontend-svc-blue
   namespace: sunseed
 spec:
   selector:

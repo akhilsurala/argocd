@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sunseed-frontend-svc-green
+  namespace: sunseed
+spec:
+  selector:
+    app: frontend-green
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
