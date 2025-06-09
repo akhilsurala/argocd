@@ -1,0 +1,14 @@
+# sunseed-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sunseed-rolebinding
+  namespace: sunseed
+subjects:
+- kind: ServiceAccount
+  name: sunseed-service-account
+  namespace: sunseed
+roleRef:
+  kind: Role
+  name: sunseed-role
+  apiGroup: rbac.authorization.k8s.io

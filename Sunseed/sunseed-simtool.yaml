@@ -15,6 +15,7 @@ spec:
       labels:
         app: simtool
     spec:
+      serviceAccountName: sunseed-service-account
       containers:
       - name: sunseed-simtool
         image: akhilsurala/sunseed-simtool:latest
