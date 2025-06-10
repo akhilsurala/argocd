@@ -29,6 +29,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  targetPort: 8082
 
 ingress:
   enabled: true
@@ -37,7 +38,7 @@ ingress:
   hosts:
     - host: sunseed.local
       paths:
-        - path: /api/sunseed-simtool
+        - path: /api/webtool-mailservice
           pathType: ImplementationSpecific
   tls: []
 
@@ -46,11 +47,20 @@ resources: {}
 livenessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8082
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8082
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
 
 autoscaling:
   enabled: false
