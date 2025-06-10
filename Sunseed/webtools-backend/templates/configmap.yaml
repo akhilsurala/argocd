@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "webtools-backend.fullname" . }}-config
+  labels:
+    {{- include "webtools-backend.labels" . | nindent 4 }}
+data:
+  {{- with .Values.configmap }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}

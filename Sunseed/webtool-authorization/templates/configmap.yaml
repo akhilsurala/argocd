@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "webtool-authorization.fullname" . }}-config
+data:
+  SPRING_DATASOURCE_URL: {{ .Values.configmap.SPRING_DATASOURCE_URL | quote }}
+  SPRING_DATASOURCE_USERNAME: {{ .Values.configmap.SPRING_DATASOURCE_USERNAME | quote }}
+  JWT_TOKEN_EXPIRATION_TIME: {{ .Values.configmap.JWT_TOKEN_EXPIRATION_TIME | quote }}
+  SPRING_PROFILES_ACTIVE: {{ .Values.configmap.SPRING_PROFILES_ACTIVE | quote }}
