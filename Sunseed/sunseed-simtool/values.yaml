@@ -54,7 +54,7 @@ resources: {}
 livenessProbe:
   httpGet:
     path: /
-    port: 8090# The port your application listens on inside the container
+    port: 8090 
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 5
@@ -63,7 +63,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /
-    port: 8090 # The port your application listens on inside the container
+    port: 8090 
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 5
