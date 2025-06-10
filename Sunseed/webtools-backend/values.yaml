@@ -33,23 +33,23 @@ ingress:
 
 resources: {}
 
-livenessProbe:
-  httpGet:
-    path: /
-    port: 8080 # The port your application listens on inside the container
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
+#livenessProbe:
+ # httpGet:
+  #  path: /
+   # port: 8080 # The port your application listens on inside the container
+  #initialDelaySeconds: 10
+  #periodSeconds: 10
+  #timeoutSeconds: 5
+  #failureThreshold: 3
 
-readinessProbe:
-  httpGet:
-    path: /
-    port: 8080 # The port your application listens on inside the container
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
+#readinessProbe:
+  #httpGet:
+    #path: /
+    #port: 8080 # The port your application listens on inside the container
+  #initialDelaySeconds: 5
+  #periodSeconds: 10
+  #timeoutSeconds: 5
+  #failureThreshold: 3
 
 autoscaling:
   enabled: false

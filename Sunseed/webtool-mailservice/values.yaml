@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: akhilsurala/webtool-mailservice
   pullPolicy: Always
-  tag: "latest"
+  tag: "latest" # CONSIDER using specific, immutable tags (e.g., "v1.0.0") for production
 
 imagePullSecrets: []
 nameOverride: ""
@@ -22,31 +22,39 @@ serviceAccount:
 podAnnotations: {}
 podLabels: {}
 
-podSecurityContext: {}
+podSecurityContext: {} # Add security contexts here if needed, e.g., runAsNonRoot: true
 
-securityContext: {}
+securityContext: {} # Add container-specific security contexts here if needed
 
 service:
   type: ClusterIP
-  port: 8082
+  port: 8082 # This is the port the Kubernetes Service will listen on for internal traffic
+            # It also dictates the containerPort in your deployment due to templating.
 
 ingress:
   enabled: true
-  className: ""
-  annotations: {}
+  className: "" # Specify your Ingress Controller class name if you have one (e.g., "nginx")
+  annotations: {} # Add Ingress-specific annotations here (e.g., for cert-manager, rewrite rules)
   hosts:
-    - host: sunseed.local
+    - host: sunseed.local # Change this to your actual domain name for production
       paths:
-        - path: /api/webtool-mailservice
-          pathType: ImplementationSpecific
-  tls: []
+        - path: /api/webtool-mailservice # Ensure this path is correct for your application's API
+          pathType: ImplementationSpecific # Can also be "Prefix" or "Exact"
+  tls: [] # IMPORTANT: Configure TLS here for HTTPS in production (e.g., using cert-manager)
 
-resources: {}
+resources: {} # IMPORTANT: Define resource requests and limits for production environments
+              # Example:
+              # requests:
+              #   memory: "128Mi"
+              #   cpu: "100m"
+              # limits:
+              #   memory: "256Mi"
+              #   cpu: "200m"
 
 livenessProbe:
   httpGet:
-    path: /
-    port: 8082
+    path: /actuator/health # Verify this is the correct health endpoint for your application
+    port: 8082 # Must match the containerPort where the app listens
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 5
@@ -54,8 +62,8 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /
-    port: 8082
+    path: /actuator/health # Verify this is the correct health endpoint for your application
+    port: 8082 # Must match the containerPort where the app listens
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 5
@@ -82,8 +90,4 @@ config:
   SPRING_MAIL_PORT: "587"
   SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
   SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
-  SPRING_PROFILES_ACTIVE: dev
-
-secret:
-  SPRING_MAIL_USERNAME: sunseedapv@gmail.com
-  SPRING_MAIL_PASSWORD: nropqhwgjjhnbrns
+  SPRING_PROFILES_ACTIVE: dev # Change to "prod" for production

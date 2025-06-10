@@ -37,8 +37,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
+            - name: http # Name for the port, referenced by the Service's targetPort
+              containerPort: 8082 # Hardcoding the actual port the application listens on inside the container
               protocol: TCP
           env:
             - name: SPRING_MAIL_USERNAME
