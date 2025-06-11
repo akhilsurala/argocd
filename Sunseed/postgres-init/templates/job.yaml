@@ -10,12 +10,14 @@ spec:
           image: postgres:15
           command: ["psql"]
           args:
-            - "-h" 
+            - "-h"
             - "{{ .Values.postgres.host }}"
             - "-p"
             - "{{ .Values.postgres.port }}"
             - "-U"
             - "{{ .Values.postgres.username }}"
+            - "-d"
+            - "postgres"                  
             - "-f"
             - "/scripts/init.sql"
           env:

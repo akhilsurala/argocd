@@ -1,5 +1,5 @@
 postgres:
-  host: postgres
+  host: postgres-sunseed
   port: 5432
   username: postgres
   password: newlife  
