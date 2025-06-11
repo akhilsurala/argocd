@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "postgres-init.fullname" . }}
+spec:
+  template:
+    spec:
+      containers:
+        - name: init-db
+          image: postgres:15
+          command: ["psql"]
+          args:
+            - "-h" 
+            - "{{ .Values.postgres.host }}"
+            - "-p"
+            - "{{ .Values.postgres.port }}"
+            - "-U"
+            - "{{ .Values.postgres.username }}"
+            - "-f"
+            - "/scripts/init.sql"
+          env:
+            - name: PGPASSWORD
+              value: "{{ .Values.postgres.password }}"
+          volumeMounts:
+            - name: init-script
+              mountPath: /scripts
+      restartPolicy: OnFailure
+      volumes:
+        - name: init-script
+          configMap:
+            name: {{ include "postgres-init.fullname" . }}-script

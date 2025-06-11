@@ -65,7 +65,7 @@ tolerations: []
 affinity: {}
 
 config:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sunseed
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-sunseed:5432/sunseed
   SPRING_RABBITMQ_HOST: rabbitmq
   SPRING_RABBITMQ_PORT: "5672"
   MY_ENV_PROPERTY: "value1,value2"

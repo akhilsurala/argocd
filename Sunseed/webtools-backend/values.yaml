@@ -47,7 +47,7 @@ tolerations: []
 affinity: {}
 
 configmap:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sunseed
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-sunseed:5432/sunseed
   SPRING_PROFILES_ACTIVE: dev
   CROP_INTERVALTYPE: "1"
 
