@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sunseed-simtool.fullname" . }}
+  name: {{ include "postgres-init.fullname" . }}
   labels:
-    {{- include "sunseed-simtool.labels" . | nindent 4 }}
+    {{- include "postgres-init.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "sunseed-simtool.selectorLabels" . | nindent 6 }}
+      {{- include "postgres-init.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "sunseed-simtool.labels" . | nindent 8 }}
+        {{- include "postgres-init.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "sunseed-simtool.serviceAccountName" . }}
+      serviceAccountName: {{ include "postgres-init.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -40,19 +40,12 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-
-          # ✅ ENVIRONMENT VARIABLES FROM CONFIGMAP & SECRET
-          envFrom:
-            - configMapRef:
-                name: {{ include "sunseed-simtool.fullname" . }}-config
-            - secretRef:
-                name: {{ include "sunseed-simtool.fullname" . }}-secret
-
-          {{- with .Values.resources }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-
+            {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}

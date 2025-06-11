@@ -76,10 +76,6 @@ spec:
                 configMapKeyRef:
                   name: {{ include "webtool-mailservice.fullname" . }}-config
                   key: SPRING_PROFILES_ACTIVE
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

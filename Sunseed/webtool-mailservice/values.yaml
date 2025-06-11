@@ -38,7 +38,7 @@ ingress:
   hosts:
     - host: sunseed.local # Change this to your actual domain name for production
       paths:
-        - path: /api/webtool-mailservice # Ensure this path is correct for your application's API
+        - path: /api/mailservice # Ensure this path is correct for your application's API
           pathType: ImplementationSpecific # Can also be "Prefix" or "Exact"
   tls: [] # IMPORTANT: Configure TLS here for HTTPS in production (e.g., using cert-manager)
 
@@ -50,24 +50,6 @@ resources: {} # IMPORTANT: Define resource requests and limits for production en
               # limits:
               #   memory: "256Mi"
               #   cpu: "200m"
-
-livenessProbe:
-  httpGet:
-    path: /actuator/health # Verify this is the correct health endpoint for your application
-    port: 8082 # Must match the containerPort where the app listens
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
-
-readinessProbe:
-  httpGet:
-    path: /actuator/health # Verify this is the correct health endpoint for your application
-    port: 8082 # Must match the containerPort where the app listens
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 3
 
 autoscaling:
   enabled: false
@@ -91,3 +73,7 @@ config:
   SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
   SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
   SPRING_PROFILES_ACTIVE: dev # Change to "prod" for production
+
+secret:
+  SPRING_MAIL_USERNAME: sunseedapv@gmail.com
+  SPRING_MAIL_PASSWORD: nropqhwgjjhnbrns

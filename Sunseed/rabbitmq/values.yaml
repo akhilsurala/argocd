@@ -1,14 +1,13 @@
-# Default values for webtool-authorization.
+# Default values for rabbitmq.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: akhilsurala/webtool-authorization
+  repository: akhilsurala/rabbitmq
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "3.13-management"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -18,7 +17,7 @@ serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: "authorization-sa"
+  name: ""
 
 podAnnotations: {}
 podLabels: {}
@@ -28,17 +27,20 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8081
-
+  port: 5672
+  extraPorts:
+    - name: management
+      port: 15672
+      targetPort: 15672
 
 ingress:
-  enabled: true
+  enabled: false
   className: ""
   annotations: {}
   hosts:
-    - host: sunseed.local
+    - host: chart-example.local
       paths:
-        - path: /api/authorization
+        - path: /
           pathType: ImplementationSpecific
   tls: []
 
@@ -54,15 +56,11 @@ volumes: []
 volumeMounts: []
 
 nodeSelector: {}
+
 tolerations: []
+
 affinity: {}
 
-configmap:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/users
-  SPRING_DATASOURCE_USERNAME: postgres
-  JWT_TOKEN_EXPIRATION_TIME: "604800000"
-  SPRING_PROFILES_ACTIVE: dev
-
-secret:
-  SPRING_DATASOURCE_PASSWORD: newlife
-  JWT_SECRET_KEY: 5A7134743777397A24432646294A404E635266556A586E3272357538782F4125
+config:
+  RABBITMQ_DEFAULT_USER: guest
+  RABBITMQ_DEFAULT_PASS: guest

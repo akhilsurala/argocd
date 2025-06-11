@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sunseed-simtool.fullname" . }}
+  name: {{ include "rabbitmq.fullname" . }}
   labels:
-    {{- include "sunseed-simtool.labels" . | nindent 4 }}
+    {{- include "rabbitmq.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "sunseed-simtool.selectorLabels" . | nindent 6 }}
+      {{- include "rabbitmq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "sunseed-simtool.labels" . | nindent 8 }}
+        {{- include "rabbitmq.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "sunseed-simtool.serviceAccountName" . }}
+      serviceAccountName: {{ include "rabbitmq.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -40,19 +40,25 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-
-          # ✅ ENVIRONMENT VARIABLES FROM CONFIGMAP & SECRET
-          envFrom:
-            - configMapRef:
-                name: {{ include "sunseed-simtool.fullname" . }}-config
-            - secretRef:
-                name: {{ include "sunseed-simtool.fullname" . }}-secret
-
-          {{- with .Values.resources }}
+            {{- range .Values.service.extraPorts }}
+            - name: {{ .name }}
+              containerPort: {{ .port }}
+              targetPort: {{ .targetPort }}
+              protocol: TCP
+            {{- end }}
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "rabbitmq.fullname" . }}-secret
+                  key: RABBITMQ_DEFAULT_USER
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "rabbitmq.fullname" . }}-secret
+                  key: RABBITMQ_DEFAULT_PASS
           resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-
+            {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
