@@ -5,12 +5,13 @@
 replicaCount: 2
 
 image:
-  repository: akhilsurala/sunseed-frontend
+  repository: sunseed/sunseed-frontend
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "19"
 
-imagePullSecrets: []
+imagePullSecrets: 
+  - name: aws-secret
 nameOverride: ""
 fullnameOverride: ""
 
