@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: sunseed/sunseed-frontend
+  repository: 543409816872.dkr.ecr.us-east-1.amazonaws.com/sunseed/sunseed-frontend
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v19"
