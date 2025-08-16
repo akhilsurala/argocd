@@ -1,8 +1,19 @@
+name: Deploy to Minikube
+
+on:
+  push:
+    branches:
+      - master   # Trigger on push to master branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repo to access deployment.yaml
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       # Install kubectl
       - name: Setup kubectl
         uses: azure/setup-kubectl@v4
@@ -15,11 +26,13 @@ jobs:
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG_MINIKUBE }}" > $HOME/.kube/config
 
-      # Update deployment with ECR image
-      - name: Deploy to Minikube
+      # Apply deployment file (from repo path)
+      - name: Apply Kubernetes Deployment
         run: |
-          kubectl set image deployment/myapp-deployment myapp=543409816872.dkr.ecr.us-east-1.amazonaws.com/sunseed/sunseed-frontend:v10
+          kubectl apply -f sunseed/sunseed-frontend/deployment.yaml
           kubectl rollout status deployment/myapp-deployment
+ 
+
 
 
 
