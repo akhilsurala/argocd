@@ -1,0 +1,25 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Install kubectl
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.34.0'   
+
+      # Configure kubeconfig (from GitHub secret)
+      - name: Configure Minikube Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_MINIKUBE }}" > $HOME/.kube/config
+
+      # Update deployment with ECR image
+      - name: Deploy to Minikube
+        run: |
+          kubectl set image deployment/myapp-deployment myapp=543409816872.dkr.ecr.ap-south-1.amazonaws.com/sunseed/sunseed-frontend:v10
+          kubectl rollout status deployment/myapp-deployment
+
+
+
