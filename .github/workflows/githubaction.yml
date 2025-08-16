@@ -18,7 +18,7 @@ jobs:
       # Update deployment with ECR image
       - name: Deploy to Minikube
         run: |
-          kubectl set image deployment/myapp-deployment myapp=543409816872.dkr.ecr.ap-south-1.amazonaws.com/sunseed/sunseed-frontend:v10
+          kubectl set image deployment/myapp-deployment myapp=543409816872.dkr.ecr.us-east-1.amazonaws.com/sunseed/sunseed-frontend:v10
           kubectl rollout status deployment/myapp-deployment
 
 
