@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1   # at most 1 pod down during update
+      maxSurge: 1         # at most 1 extra pod above desired count
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      imagePullSecrets:
+        - name: ecr-secret   # 🔑 tells K8s to use this secret when pulling image
+      containers:
+      - name: myapp
+        image: 543409816872.dkr.ecr.us-east-1.amazonaws.com/sunseed/sunseed-frontend:v10
+        ports:
+        - containerPort: 80
+
