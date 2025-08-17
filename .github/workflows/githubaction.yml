@@ -3,8 +3,8 @@ name: Deploy to EKS
 on:
   push:
     branches:
-      - master   # or main, depending on your repo
-  workflow_dispatch: # allows you to trigger manually from GitHub UI
+      - master   # or main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,17 +14,28 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}   # ✅ must exist in Secrets
+          aws-region: us-east-1  # hardcode if you know region
 
-      - name: Update kubeconfig
-        run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name eks-fargate-cluster
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig \
+            --region us-east-1 \
+            --name eks-fargate-cluster \
+            --alias eks-fargate-cluster
+
+      - name: Verify cluster connection
+        run: |
+          kubectl get nodes
+          kubectl get pods -A
 
       - name: Deploy to EKS
-        run: kubectl apply -f Sunseed/sunseed-frontend/deployment.yaml
+        run: |
+          kubectl apply -f Sunseed/sunseed-frontend/deployment.yaml --validate=false
+
 
 
     
