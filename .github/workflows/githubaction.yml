@@ -23,8 +23,10 @@ jobs:
       # Configure kubeconfig (from GitHub secret)
       - name: Configure Minikube Kubeconfig
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG_MINIKUBE }}" > $HOME/.kube/config
+          minikube update-context
+          export KUBECONFIG=$HOME/.kube/config
+          kubectl config use-context minikube
+          kubectl get nodes
 
       # Apply deployment file (from repo path)
       - name: Apply Kubernetes Deployment
