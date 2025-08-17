@@ -1,3 +1,11 @@
+name: Deploy to EKS
+
+on:
+  push:
+    branches:
+      - master   # or main, depending on your repo
+  workflow_dispatch: # allows you to trigger manually from GitHub UI
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,6 +25,8 @@ jobs:
 
       - name: Deploy to EKS
         run: kubectl apply -f Sunseed/sunseed-frontend/deployment.yaml
+
+    
 
 
    
