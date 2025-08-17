@@ -18,13 +18,14 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}   # ✅ must exist in Secrets
 
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name eks-fargate-cluster
 
       - name: Deploy to EKS
         run: kubectl apply -f Sunseed/sunseed-frontend/deployment.yaml
+
 
     
 
